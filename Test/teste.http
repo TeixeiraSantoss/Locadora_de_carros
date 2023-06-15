@@ -1,0 +1,113 @@
+
+###
+###CRUD VEICULO
+###
+
+
+###CADASTRANDO VEICULO POR MEIO DO METODO POST
+POST http://localhost:3000/veiculo/cadastrar
+Content-Type: application/json
+
+{
+    "id" : 3,
+    "marca" : "Chevrolet",
+    "modelo" : "Onix",
+    "precoAluguel" : 100,
+    "categoria" : "sedan",
+    "status" : false,
+    "integridade" : true,
+    "combustivel" : 30
+}
+
+
+###ALTERA DADOS DE UM CARRO JA CADASTRADO
+POST http://localhost:3000/veiculo/alterar
+Content-Type: application/json
+
+{
+    "id" : 1,
+    "marca" : "Gol",
+    "modelo" : "Onix",
+    "precoAluguel" : 200,
+    "categoria" : "sedan",
+    "status" : true,
+    "integridade" : true,
+    "combustivel" : 30
+}
+
+###EXCLUI UM CARRO JA CADASTRADO
+POST http://localhost:3000/veiculo/excluir
+Content-Type: application/json
+
+{
+    "id" : 1
+}
+
+###LISTA VEICULOS
+GET http://localhost:3000/veiculo/listar
+
+###ALUGA VEICULO
+POST http://localhost:3000/veiculo/alugar
+Content-Type: application/json
+
+{
+    "cpf" : "1295",
+    "id" : 1
+}
+
+
+
+###DEVOLVE VEICULO
+POST http://localhost:3000/veiculo/alugar
+Content-Type: application/json
+
+{
+    "cpf" : "1295",
+    "id" : 1,
+    "combustivel" : 20,
+    "integridade" : true
+}
+
+
+
+###
+###CRUD CONDUTOR
+###
+
+
+###CADASTRANDO CONDUTOR POR MEIO DO METODO POST
+POST http://localhost:3000/condutor/cadastrar
+Content-Type: application/json
+
+{
+    "cpf" : "222",
+    "nome" : "Victor",
+    "idade" : 22,
+    "dinheiro" : 1000,
+    "alugando" : false
+}
+
+###ALTERA DADOS DE UM CADASTRADO JA CADASTRADO
+###INSIRA UM CPF JA CADASTRADO, E ALTERE OS DADOS
+POST http://localhost:3000/condutor/alterar
+Content-Type: application/json
+
+{
+    "cpf" : "222",
+    "nome" : "Victor",
+    "idade" : 21,
+    "alugando" : false
+
+}
+
+###EXCLUI UM CONDUTOR JA CADASTRADO
+###INSIRA UM CPF JA CADASTRADO PARA SER EXCLUIDO
+POST http://localhost:3000/condutor/excluir
+Content-Type: application/json
+
+{
+    "cpf" : "222"
+}
+
+###LISTA CONDUTORES
+GET http://localhost:3000/condutor/listar
