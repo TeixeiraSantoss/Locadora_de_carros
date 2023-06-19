@@ -45,10 +45,14 @@ export class AlugarCarro{
     //ALTERAR DADOS DO VEICULO
     async alterarVeiculo(request : Request, response : Response) : Promise<Response> {
       const veiculoId = request.body.id; // Obtém o ID do veículo a ser alterado
-      const { marca, modelo, precoAluguel, categoria, status, integridade, combustivel } = request.body; // Obtém as novas informações do veículo
+
+      // Encontra o veículo pela id recebida
+      const veiculo = await prisma.veiculo.findUnique({where: { id: veiculoId}});
+
+
+      const { marca, modelo, precoAluguel, categoria, status, integridade, combustivel } = request.body; 
+      // Obtém as novas informações do veículo
       
-      // Encontra o veículo pelo ID
-      const veiculo = veiculos.find((veiculo) => veiculo.id === veiculoId);
     
       // Se o veículo não for encontrado, retorna uma mensagem de erro
       if (!veiculo) {
@@ -56,35 +60,34 @@ export class AlugarCarro{
       }
       
       // Atualiza as informações do veículo com os novos valores
-      veiculo.marca = marca;
-      veiculo.modelo = modelo;
-      veiculo.precoAluguel = precoAluguel;
-      veiculo.categoria = categoria;
-      veiculo.status = status;
-      veiculo.integridade = integridade;
-      veiculo.combustivel = combustivel;
+      const attveiculo = await prisma.veiculo.update({where: { id: veiculoId},
+        data:{marca, modelo, precoAluguel, categoria, status, integridade, combustivel}
+      })
+      
 
 
       
       // Retorna uma mensagem de sucesso com o veículo atualizado
-      return response.json({ message: "Veículo atualizado", veiculo });
+      return response.json({ message: "Veículo atualizado", attveiculo });
     }
 
 
     //EXCLUIR VEICULO
-      excluirVeiculo(request: Request, response: Response): Response {
-        const veiculoId = request.body.id; // Obtém o ID do veículo a ser excluído
-      
-        // Encontra o índice do veículo na lista
-        const veiculoIndex = veiculos.findIndex((veiculo) => veiculo.id === veiculoId);
+      async excluirVeiculo(request: Request, response: Response): Promise<Response> {
+        
+        // Obtém o ID do veículo a ser excluído
+        const veiculoId = request.body.id; 
+        
+        // Encontra o veículo pela id recebida
+        const veiculo = await prisma.veiculo.findUnique({where: { id: veiculoId}});
       
         // Se o veículo não for encontrado, retorna uma mensagem de erro
-        if (veiculoIndex === -1) {
+        if (!veiculo) {
           return response.status(404).json({ message: "Veículo não encontrado" });
         }
       
         // Remove o veículo da lista
-        veiculos.splice(veiculoIndex, 1);
+        await prisma.veiculo.delete({ where: { id: veiculoId }});
       
         // Retorna uma mensagem de sucesso
         return response.json({ message: "Veículo excluído" });
@@ -95,7 +98,7 @@ export class AlugarCarro{
     //LISTANDO TODOS VEICULOS
     async listarVeiculo(request : Request, response : Response) : Promise<Response>{
         
-      const listaVeiculos = await prisma.veiculo.findMany();
+        const listaVeiculos = await prisma.veiculo.findMany();
 
         return response.status(200).json({ message : "Ok", listaVeiculos});
     }
@@ -111,23 +114,15 @@ export class AlugarCarro{
     async cadastrarCondutorPost(request : Request, response : Response) : Promise<Response>{
   
       const novoCondutor = await prisma.condutor.create({
-        data:{
-          cpf:request.body.cpf,
-          nome:request.body.nome,
-          idade:request.body.idade,
-          dinheiro:request.body.dinheiro,
-          alugando:request.body.alugando,
-        }
-      })
+        data: request.body,
+      });
 
       if(novoCondutor.idade < 18){
         await prisma.condutor.delete({ where: { cpf: novoCondutor.cpf } });
         return response.status(400).json({ error: 'A idade mínima do condutor é 18 anos.' });
-        
       }
       //Retornando um valor
-        return response.status(201).json
-      (
+        return response.status(201).json(
           { message : "Condutor cadastrado com sucesso!", novoCondutor }
       );
   }
@@ -195,37 +190,33 @@ export class AlugarCarro{
 
     // ALUGAR VEÍCULO
 
-    // alugarVeiculo(request: Request, response : Response) : Response{
+    // async alugarVeiculo(request: Request, response : Response) : Promise<Response> {
       
     //   // Recebe o CPF e ID
     //   const condutorCPF = request.body.cpf;
     //   const veiculoId = request.body.id;
       
     //   // Encontra o índice do veículo na lista
-    //   const veiculoIndex = veiculos.findIndex((veiculo) => veiculo.id === veiculoId);
+    //   const veiculo = await prisma.veiculo.findUnique({where: {id: veiculoId}});
       
     //   // Encontra o condutor pelo "cpf"
-    //   const condutorIndex = condutores.findIndex((condutor) => condutor.cpf === condutorCPF);
+    //   const condutor = await prisma.veiculo.findUnique({where: {cpf: condutorCPF}});
       
     //   // Se o condutor não for encontrado, retorna uma mensagem de erro
-    //   if (condutorIndex === -1) {
+    //   if (!condutor) {
     //     return response.status(404).json({ message: "Condutor não encontrado" });
     //   }
     
-    //   // Encontra o veículo pelo ID
-    //   const veiculoIndex = veiculos.findIndex((veiculo) => veiculo.id === id);
-    
     //   // Se o veículo não for encontrado, retorna uma mensagem de erro
-    //   if (veiculoIndex === -1) {
+    //   if (!veiculo) {
     //     return response.status(404).json({ message: "Veículo não encontrado" });
     //   }
     
     //   // Verifica se o veículo já está alugado
-    //   const veiculo = veiculos[veiculoIndex];
-    //   const condutor = condutores[condutorIndex];
+
 
     //   // Pega o valor do aluguel do veículo
-    //   let valorAluguel = veiculo.precoAluguel;
+    //   let valorAluguel = await prisma.veiculo.findUnique({});
 
     //   // Pega o dinheiro que o condutor possui
     //   let dinheiroCondutor = condutor.dinheiro;

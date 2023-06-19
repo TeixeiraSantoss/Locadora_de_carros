@@ -1,0 +1,21 @@
+create database trabalhotps;
+use trabalhotps;
+
+CREATE TABLE Veiculo (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  marca VARCHAR(255),
+  modelo VARCHAR(255),
+  precoAluguel FLOAT,
+  categoria VARCHAR(255),
+  status BOOLEAN,
+  integridade BOOLEAN,
+  combustivel INT
+);
+
+CREATE TABLE Condutor (
+  cpf VARCHAR(255) PRIMARY KEY,
+  nome VARCHAR(255),
+  idade INT,
+  dinheiro INT,
+  alugando BOOLEAN
+);

@@ -1,2 +1,2 @@
-# Locadora_de_carros
-Trabalho da materia de Topicos Especiais de Sistemas
+# Trabalho-TES-LocadoraDeCarros
+Tabalho de Topicos Especiais de Sistemas, o trabalho é uma locadora de carros com funcionalidade CRUD e outras regras de negocio

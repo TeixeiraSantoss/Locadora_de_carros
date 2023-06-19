@@ -26,5 +26,5 @@ model Condutor {
   nome String
   idade Int
   dinheiro Int
-    lugando Boolean
+  alugando Boolean
 }
