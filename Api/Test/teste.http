@@ -24,7 +24,7 @@ POST http://localhost:3001/veiculo/alterar
 Content-Type: application/json
 
 {
-    "id" : 1,
+    "id" : 4,
     "marca" : "Gol",
     "modelo" : "Onix",
     "precoAluguel" : 200,
@@ -39,30 +39,30 @@ POST http://localhost:3001/veiculo/excluir
 Content-Type: application/json
 
 {
-    "id" :2
+    "id" :4
 }
 
 ###LISTA VEICULOS
 GET http://localhost:3001/veiculo/listar
 
-###ALUGA VEICULO
+###ALUGAR VEICULO
 POST http://localhost:3001/veiculo/alugar
 Content-Type: application/json
 
 {
-    "cpf" : "1295",
-    "id" : 1
+    "cpf" : "333",
+    "id" : 3
 }
 
 
 
 ###DEVOLVE VEICULO
-POST http://localhost:3001/veiculo/alugar
+POST http://localhost:3001/veiculo/devolver
 Content-Type: application/json
 
 {
-    "cpf" : "1295",
-    "id" : 1,
+    "cpf" : "333",
+    "id" : 3,
     "combustivel" : 20,
     "integridade" : true
 }

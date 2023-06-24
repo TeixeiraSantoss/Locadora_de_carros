@@ -10,14 +10,15 @@ router.post("/veiculo/cadastrar", new AlugarCarro().cadastrarVeiculoPost);
 router.get("/veiculo/listar", new AlugarCarro().listarVeiculo);
 router.post("/veiculo/alterar", new AlugarCarro().alterarVeiculo);
 router.post("/veiculo/excluir", new AlugarCarro().excluirVeiculo);
-// router.post("/veiculo/alugar", new AlugarCarro().alugarVeiculo);
-// router.post("/veiculo/devolver", new AlugarCarro().devolverVeiculo);
+router.post("/veiculo/alugar", new AlugarCarro().alugarVeiculo);
+router.post("/veiculo/devolver", new AlugarCarro().devolverVeiculo);
 
 
 router.post("/condutor/cadastrar", new AlugarCarro().cadastrarCondutorPost);
 router.get("/condutor/listar", new AlugarCarro().listarCondutor);
 router.post("/condutor/alterar", new AlugarCarro().alterarCondutor);
 router.post("/condutor/excluir", new AlugarCarro().excluirCondutor);
+
 
 
 
