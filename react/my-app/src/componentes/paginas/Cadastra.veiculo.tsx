@@ -35,13 +35,13 @@ export function CadastrarVeiculo(){
                 setStatus("");
                 setIntegridade("");
                 setCombustivel("");
+                console.log("Deu certo");
             })
             .catch((erro: any) => {
                 //Executar algo quando a requisição for mal sucedida
                 //Códigos HTTP na faixa do 400 e 500
                 console.log(erro);
             });
-            console.log("Deu certo");
     }
 
     function teste(){
