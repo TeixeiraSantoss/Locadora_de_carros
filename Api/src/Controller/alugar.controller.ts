@@ -59,10 +59,10 @@ export class AlugarCarro{
     //ALTERAR DADOS DO VEICULO
     async alterarVeiculo(request : Request, response : Response) : Promise<Response> {
       try {
-        const veiculoId = request.body.id; // Obtém o ID do veículo a ser alterado
+        const veiculoId = request.params.id; // Obtém o ID do veículo a ser alterado
   
         // Encontra o veículo pela id recebida
-        const veiculo = await prisma.veiculo.findUnique({where: { id: veiculoId}});
+        const veiculo = await prisma.veiculo.findUnique({where: { id: Number.parseInt(veiculoId)}});
   
   
         const { marca, modelo, precoAluguel, categoria, status, integridade, combustivel } = request.body; 
@@ -75,7 +75,7 @@ export class AlugarCarro{
         }
         
         // Atualiza as informações do veículo com os novos valores
-        const attveiculo = await prisma.veiculo.update({where: { id: veiculoId},
+        const attveiculo = await prisma.veiculo.update({where: { id: Number.parseInt(veiculoId)},
           data:{marca, modelo, precoAluguel, categoria, status, integridade, combustivel}
         })
     
@@ -91,31 +91,19 @@ export class AlugarCarro{
 
 
     //EXCLUIR VEICULO
-      async excluirVeiculo(request: Request, response: Response): Promise<Response> {
-        try {
-          // Obtém o ID do veículo a ser excluído
-          const veiculoId = request.body.id; 
-          
-          // Encontra o veículo pela id recebida
-          const veiculo = await prisma.veiculo.findUnique({where: { id: veiculoId}});
-        
-          // Se o veículo não for encontrado, retorna uma mensagem de erro
-          if (!veiculo) {
-            return response.status(404).json({ message: "Veículo não encontrado" });
-          }
-        
-          // Remove o veículo da lista
-          await prisma.veiculo.delete({ where: { id: veiculoId }});
-        
-          // Retorna uma mensagem de sucesso
-          return response.json({ message: "Veículo excluído" });
-          
-        } catch (error) {
-          console.error(error);
-          return response.status(500).json({ message: "Erro ao acessar o banco de dados" });
+    async excluirVeiculo(request: Request, response: Response): Promise<Response> {
+      try {
+        const veiculo = await prisma.veiculo.delete({where: { id: Number.parseInt(request.params.id)}});
 
-        }
+        // Retorna uma mensagem de sucesso
+        return response.json({ message: "Veículo excluído" , data: veiculo});
+
+      } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: "Erro ao acessar o banco de dados" });
+
       }
+    }
 
 
 
@@ -124,7 +112,8 @@ export class AlugarCarro{
     async listarVeiculo(request : Request, response : Response) : Promise<Response>{
         try {
           const listaVeiculos = await prisma.veiculo.findMany({});
-          return response.status(200).json({ message : "Ok", dados:listaVeiculos});
+
+          return response.status(200).json({ message : "Ok", dados: listaVeiculos});
 
         } catch (error) {
           console.error(error);
@@ -178,13 +167,13 @@ export class AlugarCarro{
     async alterarCondutor(request : Request, response : Response):Promise<Response>{
       try {
         // Obtém o "cpf" do "condutor" a ser alterado
-        const condutorCPF = request.body.cpf;
+        const condutorCPF = request.params.cpf;
   
         // Obtém as novas informações do "condutor"
-        const { cpf, nome, idade, dinheiro} = request.body; 
+        const { nome, idade, dinheiro} = request.body; 
       
         // Encontra o condutor pelo "cpf"
-        const findCondutor = await prisma.condutor.findUnique({ where: { cpf: condutorCPF } });
+        const findCondutor = await prisma.condutor.findUnique({ where: { cpf: Number.parseInt(condutorCPF) } });
   
         // Se o condutor não for encontrado, retorna uma mensagem de erro
         if (!findCondutor) {
@@ -198,8 +187,8 @@ export class AlugarCarro{
   
         // Atualiza as informações do condutor com os novos valores
         const updateCondutor = await prisma.condutor.update({
-          where: {cpf: condutorCPF},
-          data: {cpf, nome, idade, dinheiro},
+          where: {cpf: Number.parseInt(condutorCPF)},
+          data: { nome, idade, dinheiro},
         });
         
           // Retorna uma mensagem de sucesso com o veículo atualizado
@@ -212,23 +201,28 @@ export class AlugarCarro{
       }
 
     }
+
+    //BUSCAR CONDUTOR
+    async buscarCondutor(request: Request, response: Response): Promise<Response> {
+      const condutor = await prisma.condutor.findUnique({
+        where: {
+          cpf: Number.parseInt(request.params.cpf),
+        },
+      });
+      if (!condutor) {
+        return response.status(404).json({ message: "Condutor não encontrado!" });
+      }
+      return response.status(200).json({ data: condutor });
+    }
     
 
     //EXCLUIR CONDUTOR
     async excluirCondutor(request: Request, response: Response): Promise<Response> {
       try {
-        // Obtém o "cpf" do "condutor" a ser alterado
-        const condutorCPF = request.body.cpf;
-      
-        const condutor = await prisma.condutor.findUnique({ where: { cpf: condutorCPF } });
-        if (!condutor) {
-          return response.status(404).json({ message: "Condutor não encontrado" });
-        }
-        
-        await prisma.condutor.delete({ where: {cpf: condutorCPF}});
+        // Obtém o "cpf" do "condutor" a ser deletado
+        const condutor = await prisma.condutor.delete({ where: { cpf: Number.parseInt(request.params.cpf) } });
         // Retorna uma mensagem de sucesso
-        return response.json({ message: "Condutor excluído" });
-        
+        return response.json({ message: "Condutor excluído" , data: condutor});
       } catch (error) {
         console.error(error);
         return response.status(500).json({ message: "Erro ao acessar o banco de dados" });
