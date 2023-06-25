@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Veiculo } from "../../models/veiculo.model";
+import { useParams } from "react-router-dom";
 
 export function AtualizarVeiculo(){
+    const [Id, setId] = useState("");
     const [marca, setMarca] = useState("");
     const [modelo, setModelo] = useState("");
     const [precoAluguel, setPrecoAluguel] = useState("");
@@ -11,40 +13,48 @@ export function AtualizarVeiculo(){
     const [integridade, setIntegridade] = useState("");
     const [combustivel, setCombustivel] = useState("");
 
-    function atualizar(){
-        let veiculo: Veiculo = new Veiculo;
-        veiculo.marca = marca;
-        veiculo.modelo = modelo;
-        veiculo.precoAluguel = Number.parseInt(precoAluguel);
-        veiculo.categoria = categoria;
-        veiculo.status = Boolean(status); //Retorna "true" caso a String não esteja vazia
-        veiculo.integridade = Boolean(integridade);
-        veiculo.combustivel = Number.parseInt(combustivel);
+    const { id } = useParams();
 
+    useEffect(() => {
+        // Buscar os dados do veículo com o ID fornecido
         axios
-            .post("http://localhost:3001/veiculo/alterar", veiculo)
-            .then((resposta: any) => {
-                //Executar algo quando a requisição for bem sucedida
-                //Códigos HTTP na faixa do 200
-                //Redirecionar para o componente da listagem
-                console.log(resposta.data.mensagem);
-                setMarca("");
-                setModelo("");
-                setPrecoAluguel("");
-                setCategoria("");
-                setStatus("");
-                setIntegridade("");
-                setCombustivel("");
-            })
-            .catch((erro: any) => {
-                //Executar algo quando a requisição for mal sucedida
-                //Códigos HTTP na faixa do 400 e 500
-                console.log(erro);
-            });
-    }
+          .get(`http://localhost:3001/veiculo/buscar/${id}`)
+          .then((resposta) => {
+            const veiculo = resposta.data;
+            setMarca(veiculo.marca);
+            setModelo(veiculo.modelo);
+            setPrecoAluguel(veiculo.precoAluguel.toString());
+            setCategoria(veiculo.categoria);
+            setStatus(veiculo.status.toString());
+            setIntegridade(veiculo.integridade.toString());
+            setCombustivel(veiculo.combustivel.toString());
+          })
+          .catch((erro) => {
+            console.log(erro);
+          });
+      }, [id]);
 
-    function teste(){
-        console.log("Testes");
+    function atualizar(){
+            let veiculo = new Veiculo();
+            veiculo.id = Number.parseInt(Id);
+            veiculo.marca = marca;
+            veiculo.modelo = modelo;
+            veiculo.precoAluguel = Number.parseInt(precoAluguel);
+            veiculo.categoria = categoria;
+            veiculo.status = Boolean(status);
+            veiculo.integridade = Boolean(integridade);
+            veiculo.combustivel = Number.parseInt(combustivel);
+            
+            axios
+            .post(`http://localhost:3001/veiculo/alterar/${id}`, veiculo)
+            .then((resposta) => {
+              console.log(resposta.data.mensagem);
+              console.log("Alterado comsucesso");
+            })
+            .catch((erro) => {
+              console.log(erro);
+              console.log("Erro ao alterar");
+        });
     }
 
     return(
@@ -110,7 +120,6 @@ export function AtualizarVeiculo(){
                 <button onClick={atualizar}>
                 Atualizar
                 </button>
-            )
             </div>
         </div>
     )
