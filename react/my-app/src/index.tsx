@@ -44,7 +44,7 @@ const routes = createBrowserRouter([
         element: <AtualizarCondutor />,
       },
       {
-        path: "/veiculo/alugar",
+        path: "/veiculo/alugar/:id",
         element: <AlugarVeiculo />,
       },
       {

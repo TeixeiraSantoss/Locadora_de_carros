@@ -11,7 +11,7 @@ router.get("/veiculo/listar", new AlugarCarro().listarVeiculo);
 router.get("/veiculo/buscar/:id", new AlugarCarro().buscarVeiculo);
 router.post("/veiculo/alterar/:id", new AlugarCarro().alterarVeiculo);
 router.delete("/veiculo/excluir/:id", new AlugarCarro().excluirVeiculo);
-router.post("/veiculo/alugar", new AlugarCarro().alugarVeiculo);
+router.post("/veiculo/alugar/:id", new AlugarCarro().alugarVeiculo);
 router.post("/veiculo/devolver", new AlugarCarro().devolverVeiculo);
 
 
