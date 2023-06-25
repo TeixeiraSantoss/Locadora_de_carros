@@ -24,7 +24,7 @@ export function ListarCondutor(){
 
   function remover(cpf: number) {
     axios
-      .post("http://localhost:3001/condutor/excluir" + cpf)
+      .delete("http://localhost:3001/condutor/excluir/" + cpf)
       .then((resposta) => {
         carregarDados();
       })
