@@ -24,7 +24,7 @@ export function ListarVeiculo(){
 
   function remover(id: number) {
     axios
-      .post("http://localhost:3001/veiculo/excluir" + id)
+      .delete("http://localhost:3001/veiculo/excluir/" + id)
       .then((resposta) => {
         carregarDados();
       })
