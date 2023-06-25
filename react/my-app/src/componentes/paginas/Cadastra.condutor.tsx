@@ -27,13 +27,15 @@ export function CadastrarCondutor(){
                 setIdade("");
                 setDinheiro("");
                 setAlugando("");
+                console.log("sucesso");
             })
             .catch((erro: any) => {
                 //Executar algo quando a requisição for mal sucedida
                 //Códigos HTTP na faixa do 400 e 500
                 console.log(erro);
+                console.log("deu erro");
             });
-            console.log("sucesso");
+            
     }
 
 
