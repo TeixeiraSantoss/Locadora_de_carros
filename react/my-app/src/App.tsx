@@ -1,12 +1,12 @@
-import React from 'react';
-import { CadastrarVeiculo } from './componentes/paginas/Cadastra.veiculo';
-import { ListarVeiculo } from './componentes/paginas/Listar.veiculo';
+import Nav from './componentes/paginas/Nav';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
     <div>
-      {/* <CadastrarVeiculo /> */}
-      <ListarVeiculo />
+      <Nav />
+
+      <Outlet/>
     </div>
   );
 }

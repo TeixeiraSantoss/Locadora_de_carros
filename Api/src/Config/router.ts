@@ -8,16 +8,17 @@ const router : Router = Router();
 //CONFIGURAR TODAS AS ROTAS/URLs/ENDPOINTS DA APLICAÇÃO
 router.post("/veiculo/cadastrar", new AlugarCarro().cadastrarVeiculoPost);
 router.get("/veiculo/listar", new AlugarCarro().listarVeiculo);
+router.get("/veiculo/buscar/:id", new AlugarCarro().buscarVeiculo);
 router.post("/veiculo/alterar", new AlugarCarro().alterarVeiculo);
-router.post("/veiculo/excluir", new AlugarCarro().excluirVeiculo);
+router.delete("/veiculo/exclui/:id", new AlugarCarro().excluirVeiculo);
 router.post("/veiculo/alugar", new AlugarCarro().alugarVeiculo);
 router.post("/veiculo/devolver", new AlugarCarro().devolverVeiculo);
 
 
 router.post("/condutor/cadastrar", new AlugarCarro().cadastrarCondutorPost);
 router.get("/condutor/listar", new AlugarCarro().listarCondutor);
-router.post("/condutor/alterar", new AlugarCarro().alterarCondutor);
-router.post("/condutor/excluir", new AlugarCarro().excluirCondutor);
+router.post("/condutor/alterar/:cpf", new AlugarCarro().alterarCondutor);
+router.delete("/condutor/excluir/:cpf", new AlugarCarro().excluirCondutor);
 
 
 

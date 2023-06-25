@@ -126,6 +126,18 @@ export class AlugarCarro{
         }
     }
 
+    //BUSCAR VEICULO
+    async buscarVeiculo(request: Request, response: Response): Promise<Response> {
+      const veiculo = await prisma.veiculo.findUnique({
+        where: {
+          id: Number.parseInt(request.params.id),
+        },
+      });
+      if (!veiculo) {
+        return response.status(404).json({ message: "Veiculo não encontrado!" });
+      }
+      return response.status(200).json({ data: veiculo });
+    }
 
     //
     //CRUD DO CONDUTOR
@@ -263,7 +275,7 @@ export class AlugarCarro{
         }
       
         // Verifica se o veículo já está alugado
-        if (veiculo.alugado) {
+        if (veiculo.status) {
           return response.status(400).json({ message: "Veículo já alugado" });
         }
     

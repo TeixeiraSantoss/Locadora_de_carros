@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Veiculo } from "../../models/veiculo.model";
 
-export function CadastrarVeiculo(){
+export function AtualizarVeiculo(){
     const [marca, setMarca] = useState("");
     const [modelo, setModelo] = useState("");
     const [precoAluguel, setPrecoAluguel] = useState("");
@@ -11,7 +11,7 @@ export function CadastrarVeiculo(){
     const [integridade, setIntegridade] = useState("");
     const [combustivel, setCombustivel] = useState("");
 
-    function enviar(){
+    function atualizar(){
         let veiculo: Veiculo = new Veiculo;
         veiculo.marca = marca;
         veiculo.modelo = modelo;
@@ -22,7 +22,7 @@ export function CadastrarVeiculo(){
         veiculo.combustivel = Number.parseInt(combustivel);
 
         axios
-            .post("http://localhost:3001/veiculo/cadastrar", veiculo)
+            .post("http://localhost:3001/veiculo/alterar", veiculo)
             .then((resposta: any) => {
                 //Executar algo quando a requisição for bem sucedida
                 //Códigos HTTP na faixa do 200
@@ -41,7 +41,6 @@ export function CadastrarVeiculo(){
                 //Códigos HTTP na faixa do 400 e 500
                 console.log(erro);
             });
-            console.log("Deu certo");
     }
 
     function teste(){
@@ -50,7 +49,7 @@ export function CadastrarVeiculo(){
 
     return(
         <div>
-                    <h1> Cadastrar Veiculo </h1>
+                    <h1> Atualizar Veiculo </h1>
             <div>
                 <label>Marca:</label>
                 <input
@@ -108,9 +107,10 @@ export function CadastrarVeiculo(){
             </div>
 
             <div>
-                <button onClick={enviar}>
-                Cadastrar
+                <button onClick={atualizar}>
+                Atualizar
                 </button>
+            )
             </div>
         </div>
     )

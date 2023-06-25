@@ -24,7 +24,7 @@ POST http://localhost:3001/veiculo/alterar
 Content-Type: application/json
 
 {
-    "id" : 4,
+    "id" : 1,
     "marca" : "Gol",
     "modelo" : "Onix",
     "precoAluguel" : 200,
@@ -35,12 +35,7 @@ Content-Type: application/json
 }
 
 ###EXCLUI UM CARRO JA CADASTRADO
-POST http://localhost:3001/veiculo/excluir
-Content-Type: application/json
-
-{
-    "id" :4
-}
+DELETE http://localhost:3001/veiculo/excluir/1
 
 ###LISTA VEICULOS
 GET http://localhost:3001/veiculo/listar
@@ -61,7 +56,6 @@ POST http://localhost:3001/veiculo/devolver
 Content-Type: application/json
 
 {
-    "cpf" : "333",
     "id" : 3,
     "combustivel" : 20,
     "integridade" : true
@@ -79,7 +73,6 @@ POST http://localhost:3001/condutor/cadastrar
 Content-Type: application/json
 
 {
-    "cpf" : "333",
     "nome" : "MATHEUS",
     "idade" : 32,
     "dinheiro" : 2222,
