@@ -1,4 +1,5 @@
 export class Veiculo{
+    id! : number;
     marca! : String;
     modelo! : String;
     precoAluguel! : number; 

@@ -1,5 +1,5 @@
 export class Condutor{
-    cpf! : String;
+    cpf! : number;
     nome! : String;
     idade! : number;
     dinheiro! : number;
