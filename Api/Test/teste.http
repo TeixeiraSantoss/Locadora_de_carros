@@ -20,11 +20,10 @@ Content-Type: application/json
 
 
 ###ALTERA DADOS DE UM CARRO JA CADASTRADO
-POST http://localhost:3001/veiculo/alterar
+POST http://localhost:3001/veiculo/alterar/1
 Content-Type: application/json
 
 {
-    "id" : 1,
     "marca" : "Gol",
     "modelo" : "Onix",
     "precoAluguel" : 200,
@@ -103,3 +102,6 @@ Content-Type: application/json
 
 ###LISTA CONDUTORES
 GET http://localhost:3001/condutor/listar
+
+###
+GET http://localhost:3001/condutor/buscar/1
