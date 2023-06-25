@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Veiculo } from '../Models/veiculo.model';
 import { Condutor } from '../Models/condutor.model'
 import { prisma } from '../services/prisma';
+import { version } from 'os';
 
 //CRIANDO UM VETOR PARA ARMAZENAR OS VEICULOS
 let veiculos : Veiculo[] = [];
@@ -19,33 +20,40 @@ export class AlugarCarro{
 
 
     //CADASTRAR VEICULO
-    async cadastrarVeiculoPost(request : Request, response : Response) : Promise<Response>{
+    async cadastrarVeiculoPost(request : Request, response : Response) : Promise<Response> {
       try {
-        
-        const novoVeiculo = await prisma.veiculo.create({
-          data:{
-            id:request.body.id,
-            marca:request.body.marca,
-            modelo:request.body.modelo,
-            precoAluguel:request.body.precoAluguel,
-            categoria:request.body.categoria,
-            status:request.body.status,
-            integridade:request.body.integridade,
-            combustivel:request.body.combustivel,
-          }
-        })
+        const veiculo = {
+          marca: request.body.marca,
+          modelo: request.body.modelo,
+          precoAluguel: request.body.precoAluguel,
+          categoria: request.body.categoria,
+          status: request.body.status,
+          integridade: request.body.integridade,
+          combustivel: request.body.combustivel,
+        };
+    
+        const veiculoCadastrado = await prisma.veiculo.create({
+          data: veiculo,
+        });
 
-        //Retornando um valor
-        return response.status(201).json
-        (
-            { message : "Veiculo cadastrado com sucesso!", novoVeiculo }
-        );
+        await prisma.veiculo.update({
+          where: { id: veiculoCadastrado.id },
+          data: { integridade: true },
+        });
+
+        return response.status(201).json({
+          message: "Veiculo cadastrado com sucesso!",
+          veiculo: veiculoCadastrado,
+        });
+        
       } catch (error) {
         console.error(error);
-        return response.status(500).json({ message: "Erro ao acessar o banco de dados" });
-
+        return response
+          .status(500)
+          .json({ message: "Erro ao acessar o banco de dados" });
       }
     }
+    
 
 
     //ALTERAR DADOS DO VEICULO
@@ -115,14 +123,12 @@ export class AlugarCarro{
 
     async listarVeiculo(request : Request, response : Response) : Promise<Response>{
         try {
-          const listaVeiculos = await prisma.veiculo.findMany();
-  
-          return response.status(200).json({ message : "Ok", listaVeiculos});
+          const listaVeiculos = await prisma.veiculo.findMany({});
+          return response.status(200).json({ message : "Ok", dados:listaVeiculos});
 
         } catch (error) {
           console.error(error);
           return response.status(500).json({ message: "Erro ao acessar o banco de dados" });
-
         }
     }
 
@@ -139,11 +145,10 @@ export class AlugarCarro{
       return response.status(200).json({ data: veiculo });
     }
 
+
     //
     //CRUD DO CONDUTOR
     //
-
-    
 
     //CADASTRAR CONDUTOR
     async cadastrarCondutorPost(request : Request, response : Response) : Promise<Response>{
@@ -235,7 +240,7 @@ export class AlugarCarro{
     async listarCondutor(request : Request, response : Response) : Promise<Response>{
       try {
         const listarCondutores = await prisma.condutor.findMany();
-        return response.status(200).json({ message : "Ok", listarCondutores});
+        return response.status(200).json({ message : "Ok", dados: listarCondutores});
         
       } catch (error) {
         console.error(error);

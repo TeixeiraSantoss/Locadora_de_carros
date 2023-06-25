@@ -84,14 +84,6 @@ export function CadastrarVeiculo(){
             </div>
 
             <div>
-                <label>Status:</label>
-                <input
-                type="text"
-                onChange={(event: any) => setStatus(event.target.value)}
-                />
-            </div>
-
-            <div>
                 <label>Integridade:</label>
                 <input
                 type="text"

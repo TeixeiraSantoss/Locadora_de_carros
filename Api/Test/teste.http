@@ -14,7 +14,7 @@ Content-Type: application/json
     "precoAluguel" : 100,
     "categoria" : "sedan",
     "status" : false,
-    "integridade" : true,
+    "integridade" : false,
     "combustivel" : 30
 }
 
@@ -30,7 +30,7 @@ Content-Type: application/json
     "precoAluguel" : 200,
     "categoria" : "sedan",
     "status" : true,
-    "integridade" : true,
+    "integridade" : false,
     "combustivel" : 30
 }
 

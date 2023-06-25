@@ -42,33 +42,33 @@ export function AlugarVeiculo(){
         return(
             <div>             
                 <h1> Cadastrar Veiculo </h1>
-            <div>
-                <label>Idade do condutor:</label>
-                <input
-                type="text"
-                onChange={(event: any) => setIdade(event.target.value)}
-                />
-            </div>
+                <div>
+                    <label>Idade do condutor:</label>
+                    <input
+                    type="text"
+                    onChange={(event: any) => setIdade(event.target.value)}
+                    />
+                </div>
 
-            <div>
-                <label>Saldo do Condutor:</label>
-                <input
-                type="text"
-                onChange={(event: any) => setDinheiro(event.target.value)}
-                />
-            </div>
+                <div>
+                    <label>Saldo do Condutor:</label>
+                    <input
+                    type="text"
+                    onChange={(event: any) => setDinheiro(event.target.value)}
+                    />
+                </div>
 
-            <div>
-                <label>Preco do Aluguel:</label>
-                <input
-                type="text" value={precoAluguel} readOnly
-                onChange={(event: any) => setPrecoAluguel(event.target.value)}
-                />
-            </div>
+                <div>
+                    <label>Preco do Aluguel:</label>
+                    <input
+                    type="text" value={precoAluguel} readOnly
+                    onChange={(event: any) => setPrecoAluguel(event.target.value)}
+                    />
+                </div>
 
-            <button onClick={alugar}>
-                Alugar
-            </button>
+                <button onClick={alugar}>
+                    Alugar
+                </button>
             </div>
         );
 }

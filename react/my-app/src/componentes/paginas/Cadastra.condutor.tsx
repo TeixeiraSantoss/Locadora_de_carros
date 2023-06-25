@@ -69,14 +69,6 @@ export function CadastrarCondutor(){
             </div>
 
             <div>
-                <label>Ja possui veiculo alugado?</label>
-                <input
-                type="text"
-                onChange={(event: any) => setAlugando(event.target.value)}
-                />
-            </div>
-
-            <div>
                 <button onClick={enviar}>
                 Cadastrar
                 </button>
