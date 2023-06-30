@@ -2,30 +2,51 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+//Função principal
 export function ListarVeiculo(){
+    //Gettrer e Setter
+      //Array que vai receber um veiculo
     const [veiculos, setVeiculos] = useState([]);
 
+  //Função para carregar os dados da minha API
   function carregarDados() {
+    //"axios" para fazer uma requisição para a API
     axios
+      //Metodo HTTP "get", e a rota para a qual a minha requisição será enviada
       .get("http://localhost:3001/veiculo/listar")
+
+      //Trecho de codigo que será execultado caso a requisição seja recebida, e retorne sem problemas
+        //"resposta" esta recebendo todos os dados recebidos pela a requisição
       .then((resposta) => {
+        //Atribuindo os valores de "resposta.data.dados" para o Array "veiculos"
         setVeiculos(resposta.data.dados);
       })
+
+      //Trecho que será execultado caso a requisição seja mau sucedida
       .catch((erro) => {
         console.log(erro);
       });
   }
 
-  //Função de carregamento do componente
-  //React Router DOM - https://www.youtube.com/watch?v=7b42lVMdEjE
+  //"useEffect" vai execultar algo sempre que o componente for carregado
   useEffect(() => {
+    //Execultando a Função "carregandoDados" 
     carregarDados();
+
+    //Passando um Array vazio como parametro do "useEffect"
+      //Neste caso o "useEffect" será execultado apenas 1 vez
   }, []);
 
+  //Função "remover"
+    //Recebe "id" como parametro
   function remover(id: number) {
+    //Usando "axios" para enviar uma requisição para a API
     axios
+      //Metodo HTTP "delete", rota para a qual a requisição vai ser enviada
+        //Passando "id" na URL. Neste caso, é muito provavel que a minha rota definida na API, recebe "id" como atributo na URL. Basicamente serve para definir uma rota unica para cada "Veiculo"
       .delete("http://localhost:3001/veiculo/excluir/" + id)
       .then((resposta) => {
+        //Chama o "carregandoDados" para "atualizar" a lista de veiculos sempre que a função "remover" é chamada
         carregarDados();
       })
       .catch((erro) => {
@@ -53,6 +74,9 @@ export function ListarVeiculo(){
           </tr>
         </thead>
         <tbody>
+          {/* Chama o Array "veiculos" onde está armazenado todos os veiculos do programa */}
+            {/* ".map" esta transformando os veiculos armazenados em "veiculos" em uma tabela HTML */}
+              {/* Isso é feito para poder apresentar os dados dos veiculos de forma simples */}
           {veiculos.map((veiculo: any) => (
             <tr>
               <td>{veiculo.id}</td>
